@@ -1,0 +1,51 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: postgres-create-databases
+spec:
+  template:
+    metadata:
+      name: postgres-create-databases
+    spec:
+      containers:
+      - name: psql
+        image: postgres:9
+        command: ["psql", "--file=/config/sql"]
+        env:
+        - name: PGHOST
+          valueFrom:
+            secretKeyRef:
+              name: postgres-credentials
+              key: host
+        - name: PGUSER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-credentials
+              key: admin_user
+        - name: PGPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-credentials
+              key: admin_password
+        - name: PGDATABASE
+          value: postgres
+        volumeMounts:
+        - name: config
+          mountPath: /config
+      volumes:
+      - name: config
+        configMap:
+          name: postgres-create-databases
+      restartPolicy: Never
+  backoffLimit: 4
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-create-databases
+data:
+  sql: |
+    -- keycloak
+    CREATE DATABASE keycloak;
+    CREATE USER keycloak PASSWORD 'keycloak';
+    GRANT ALL PRIVILEGES ON DATABASE keycloak TO keycloak;

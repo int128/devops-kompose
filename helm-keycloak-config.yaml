@@ -1,0 +1,10 @@
+# https://github.com/kubernetes/charts/tree/master/incubator/keycloak
+keycloak:
+  ingress:
+    enabled: true
+    hosts:
+    - keycloak.k8s.example.com
+  persistence:
+    deployPostgres: false
+    dbVendor: POSTGRES
+    dbHost: xxxx.xxxx.us-west-2.rds.amazonaws.com
