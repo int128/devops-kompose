@@ -3,7 +3,7 @@ keycloak:
   ingress:
     enabled: true
     hosts:
-    - keycloak.k8s.example.com
+    - keycloak.example.com
   persistence:
     deployPostgres: false
     dbVendor: POSTGRES

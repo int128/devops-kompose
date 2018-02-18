@@ -3,7 +3,8 @@
 A compose of following services on Kubernetes.
 
 - Keycloak
-
+- Grafana
+- Prometheus
 
 ## Getting Started
 
@@ -34,19 +35,37 @@ kubectl apply -f postgres-create-databases.yaml
 Install the Keycloak.
 
 ```sh
-helm install incubator/keycloak --namespace devops --name keycloak -f helm-keycloak-config.yaml
+helm install incubator/keycloak --namespace devops --name keycloak -f config/helm-keycloak.yaml
 ```
 
 Setup the Keycloak.
 
-1. Open https://keycloak.k8s.example.com.
+1. Open https://keycloak.example.com.
 1. Create a new realm `devops`.
 1. Create your user and set your initial password.
 1. Create a new group `admin` and add you into the group.
 1. Create a new role `admin` and assign all roles of the `realm-management` role.
-1. Open https://keycloak.k8s.example.com/auth/admin/devops/console/.
+1. Open https://keycloak.example.com/auth/admin/devops/console/.
 1. Change your password.
 
+### Kubernetes RBAC with OIDC
+
+WIP
+
+### Prometheus and Grafana
+
+Install Prometheus and Grafana.
+
+```sh
+helm install stable/prometheus --namespace kube-system --name prometheus -f config/helm-prometheus.yaml
+helm install stable/grafana --namespace kube-system --name grafana -f config/helm-grafana.yaml
+```
+
+Add the Prometheus data source to the Grafana.
+
+- Type: Prometheus
+- URL: http://prometheus-prometheus-server
+- Access: Proxy
 
 ## Contribution
 
