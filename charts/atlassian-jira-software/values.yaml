@@ -1,0 +1,58 @@
+# JIRA image.
+image:
+  repository: cptactionhank/atlassian-jira-software
+  tag: 7.7.1
+  pullPolicy: IfNotPresent
+
+# JIRA server settings.
+jira:
+  ## JavaVM options.
+  ## Heap memory options should be set.
+  jvmOptions: -Xms1536m -Xmx1536m
+
+  proxy:
+    ## Host name: typically same as the ingress host.
+    name:
+    ## Port number: typically 80 or 443.
+    port:
+    ## Scheme: http or https.
+    scheme:
+
+# JIRA runs on JavaVM and memory limits should be set.
+resources:
+  limits:
+    memory: 2Gi
+  requests:
+    memory: 2Gi
+
+# Ingress settings.
+ingress:
+  ## If true, an ingress will be created.
+  enabled: false
+
+  ## Ingress hostnames.
+  # hosts:
+  # - 
+
+# JIRA requires a Persisvent Volume to store data.
+persistentVolume:
+  ## Name of the Existing Persistent Volume Claim.
+  ## If defined, PVC must be created manually before volume will be bound
+  existingClaim:
+
+  ## Persistent volume size.
+  ## This must be set if 
+  size: 10Gi
+
+  accessModes:
+    - ReadWriteOnce
+  annotations: {}
+
+service:
+  name: atlassian-jira-software
+  type: ClusterIP
+  externalPort: 80
+  internalPort: 8080
+
+# JIRA does work support multiple instances
+replicaCount: 1

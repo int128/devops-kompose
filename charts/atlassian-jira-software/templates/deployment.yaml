@@ -1,0 +1,62 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "atlassian-jira-software.fullname" . }}
+  labels:
+    app: {{ template "atlassian-jira-software.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "atlassian-jira-software.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      initContainers:
+        - name: chown-data-volume
+          image: busybox
+          command: ["chown", "1:1", "/var/atlassian/jira"]
+          volumeMounts:
+          - name: data-volume
+            mountPath: /var/atlassian/jira
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: X_PROXY_NAME
+              value: {{ .Values.jira.proxy.name }}
+            - name: X_PROXY_PORT
+              value: {{ .Values.jira.proxy.port }}
+            - name: X_PROXY_SCHEME
+              value: {{ .Values.jira.proxy.scheme }}
+            - name: CATALINA_OPTS
+              value: {{ .Values.jira.jvmOptions }}
+          volumeMounts:
+            - name: data-volume
+              mountPath: /var/atlassian/jira
+          ports:
+            - containerPort: {{ .Values.service.internalPort }}
+          livenessProbe:
+            tcpSocket:
+              port: {{ .Values.service.internalPort }}
+            initialDelaySeconds: 60
+            periodSeconds: 15
+          readinessProbe:
+            tcpSocket:
+              port: {{ .Values.service.internalPort }}
+            initialDelaySeconds: 30
+            periodSeconds: 15
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- if .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.nodeSelector | indent 8 }}
+    {{- end }}
+      volumes:
+        - name: data-volume
+          persistentVolumeClaim:
+            claimName: {{ if .Values.persistentVolume.existingClaim }}{{ .Values.persistentVolume.existingClaim }}{{- else }}{{ template "atlassian-jira-software.fullname" . }}{{- end }}

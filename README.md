@@ -5,6 +5,7 @@ A compose of following services on Kubernetes.
 - Keycloak
 - Grafana
 - Prometheus
+- JIRA Software
 
 ## Getting Started
 
@@ -66,6 +67,10 @@ Add the Prometheus data source to the Grafana.
 - Type: Prometheus
 - URL: http://prometheus-prometheus-server
 - Access: Proxy
+
+### JIRA Software
+
+WIP
 
 ## Contribution
 

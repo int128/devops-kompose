@@ -1,0 +1,10 @@
+apiVersion: v1
+description: Atlassian JIRA Software
+name: atlassian-jira-software
+version: 1.0.0
+home: https://www.atlassian.com/software/jira
+sources:
+  - https://github.com/cptactionhank/docker-atlassian-jira-software
+maintainers:
+  - name: Hidetake Iwata
+    email: int128@gmail.com
