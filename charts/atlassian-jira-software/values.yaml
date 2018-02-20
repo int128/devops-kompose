@@ -4,19 +4,18 @@ image:
   tag: 7.7.1
   pullPolicy: IfNotPresent
 
-# JIRA server settings.
-jira:
-  ## JavaVM options.
-  ## Heap memory options should be set.
-  jvmOptions: -Xms1536m -Xmx1536m
+# Reverse proxy settings.
+proxy:
+  ## Host name: typically same as the ingress host.
+  name:
+  ## Port number: typically 80 or 443.
+  port:
+  ## Scheme: http or https.
+  scheme:
 
-  proxy:
-    ## Host name: typically same as the ingress host.
-    name:
-    ## Port number: typically 80 or 443.
-    port:
-    ## Scheme: http or https.
-    scheme:
+## JavaVM options.
+## Heap memory options should be set.
+jvmOptions: "-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
 
 # JIRA runs on JavaVM and memory limits should be set.
 resources:
@@ -44,9 +43,15 @@ persistentVolume:
   ## This must be set if 
   size: 10Gi
 
+  ## Storage class.
+  storageClass:
+
+  ## Annotations.
+  annotations: {}
+
+  ## JIRA does not run with a shared volume.
   accessModes:
     - ReadWriteOnce
-  annotations: {}
 
 service:
   name: atlassian-jira-software

@@ -28,13 +28,13 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: X_PROXY_NAME
-              value: {{ .Values.jira.proxy.name }}
+              value: {{ .Values.proxy.name | quote }}
             - name: X_PROXY_PORT
-              value: {{ .Values.jira.proxy.port }}
+              value: {{ .Values.proxy.port | quote }}
             - name: X_PROXY_SCHEME
-              value: {{ .Values.jira.proxy.scheme }}
+              value: {{ .Values.proxy.scheme | quote }}
             - name: CATALINA_OPTS
-              value: {{ .Values.jira.jvmOptions }}
+              value: {{ .Values.jvmOptions | quote }}
           volumeMounts:
             - name: data-volume
               mountPath: /var/atlassian/jira

@@ -2,3 +2,8 @@ ingress:
   enabled: true
   hosts:
   - jira.example.com
+
+proxy:
+  host: jira.example.com
+  port: 443
+  scheme: https

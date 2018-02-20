@@ -16,19 +16,21 @@ TODO
 ### External database
 
 This project assumes using the external PostgreSQL database such as RDS or Cloud SQL.
-Create a secret:
+
+Create `.postgres-credentials` with the following:
 
 ```sh
-echo host=xxxx.xxxx.us-west-2.rds.amazonaws.com >> .postgres-credentials
-echo admin_user=foo >> .postgres-credentials
-echo admin_password=foo >> .postgres-credentials
-kubectl create secret generic postgres-credentials --from-env-file .postgres-credentials
+# .postgres-credentials
+host=xxxx.xxxx.us-west-2.rds.amazonaws.com
+admin_user=foo
+admin_password=foo
 ```
 
 Create databases:
 
 ```sh
-kubectl apply -f postgres-create-databases.yaml
+kubectl create secret generic postgres-credentials -n devops --from-env-file .postgres-credentials
+kubectl apply -f config/postgres-create-databases.yaml
 ```
 
 ### Keycloak
@@ -70,7 +72,15 @@ Add the Prometheus data source to the Grafana.
 
 ### JIRA Software
 
-WIP
+Install JIRA Software.
+
+TODO: publish helm
+
+```sh
+helm install jira --namespace devops --name jira -f config/helm-jira.yaml
+```
+
+Open https://jira.example.com and setup.
 
 ## Contribution
 
