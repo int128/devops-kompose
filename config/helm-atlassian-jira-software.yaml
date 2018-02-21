@@ -1,9 +1,12 @@
 ingress:
   enabled: true
   hosts:
-  - jira.example.com
+    - jira.example.com
 
 proxy:
-  host: jira.example.com
+  name: jira.example.com
   port: 443
   scheme: https
+
+jiraOptions:
+  - "jira.websudo.is.disabled=true"

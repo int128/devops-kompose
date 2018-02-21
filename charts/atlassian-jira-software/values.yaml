@@ -1,7 +1,9 @@
-# JIRA image.
+## Example configuration of atlassian-jira-software
+
+# JIRA version.
 image:
   repository: cptactionhank/atlassian-jira-software
-  tag: 7.7.1
+  tag: 7.7.2
   pullPolicy: IfNotPresent
 
 # Reverse proxy settings.
@@ -13,9 +15,18 @@ proxy:
   ## Scheme: http or https.
   scheme:
 
+## JIRA options.
+jiraOptions:
+  ## Configuring secure administrator sessions.
+  ## Set to true if you are using SAML or OIDC SSO.
+  ## https://confluence.atlassian.com/adminjiraserver/configuring-secure-administrator-sessions-938847890.html
+  #- "jira.websudo.is.disabled=true"
+
 ## JavaVM options.
-## Heap memory options should be set.
-jvmOptions: "-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
+## Memory options should be set to avoid eating whole memory.
+jvmOptions: 
+  - "-XX:+UnlockExperimentalVMOptions"
+  - "-XX:+UseCGroupMemoryLimitForHeap"
 
 # JIRA runs on JavaVM and memory limits should be set.
 resources:
@@ -36,20 +47,15 @@ ingress:
 # JIRA requires a Persisvent Volume to store data.
 persistentVolume:
   ## Name of the Existing Persistent Volume Claim.
-  ## If defined, PVC must be created manually before volume will be bound
+  ## If defined, PVC must be created manually before volume will be bound.
   existingClaim:
 
   ## Persistent volume size.
-  ## This must be set if 
+  ## This must be set for dynamic provisioning.
   size: 10Gi
 
-  ## Storage class.
-  storageClass:
-
-  ## Annotations.
-  annotations: {}
-
-  ## JIRA does not run with a shared volume.
+  #storageClass:
+  #annotations: {}
   accessModes:
     - ReadWriteOnce
 
@@ -58,6 +64,3 @@ service:
   type: ClusterIP
   externalPort: 80
   internalPort: 8080
-
-# JIRA does work support multiple instances
-replicaCount: 1

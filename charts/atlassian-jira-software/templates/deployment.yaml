@@ -8,7 +8,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   template:
     metadata:
       labels:
@@ -17,8 +17,9 @@ spec:
     spec:
       initContainers:
         - name: chown-data-volume
-          image: busybox
-          command: ["chown", "1:1", "/var/atlassian/jira"]
+          image: alpine
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["chown", "daemon:daemon", "-R", "/var/atlassian/jira"]
           volumeMounts:
           - name: data-volume
             mountPath: /var/atlassian/jira
@@ -33,8 +34,14 @@ spec:
               value: {{ .Values.proxy.port | quote }}
             - name: X_PROXY_SCHEME
               value: {{ .Values.proxy.scheme | quote }}
-            - name: CATALINA_OPTS
-              value: {{ .Values.jvmOptions | quote }}
+            - name: JAVA_OPTS
+              value: |
+                {{- range $value := .Values.jvmOptions }}
+                  {{ $value }}
+                {{- end }}
+                {{- range $value := .Values.jiraOptions }}
+                  -D{{ $value }}
+                {{- end }}
           volumeMounts:
             - name: data-volume
               mountPath: /var/atlassian/jira
