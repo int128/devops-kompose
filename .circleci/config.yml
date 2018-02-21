@@ -9,42 +9,8 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install dependencies
-          command: |
-            apk update
-            apk add ca-certificates git openssh
-      - run:
-          name: Install helm
-          working_directory: /tmp
-          command: |
-            wget "https://storage.googleapis.com/kubernetes-helm/helm-v${HELM_VERSION}-linux-amd64.tar.gz"
-            tar -zxvf "helm-v${HELM_VERSION}-linux-amd64.tar.gz"
-            chmod +x linux-amd64/helm
-            mv linux-amd64/helm /usr/local/bin/helm
-            helm init -c
-      - run:
-          name: Build charts
-          working_directory: charts
-          command: |
-            helm lint atlassian-jira-software
-            helm package atlassian-jira-software
-      - run:
-          name: Publish charts
-          working_directory: ~/public
-          command: |
-            if [ "$CIRCLE_BRANCH" = "master" ]; then
-              mkdir ~/.ssh
-              ssh-keyscan -H github.com >> ~/.ssh/known_hosts
-              git clone -b gh-pages "$CIRCLE_REPOSITORY_URL" . || {
-                git init
-                git checkout -b gh-pages
-                git remote add origin "$CIRCLE_REPOSITORY_URL"
-              }
-              cp -av ~/devops-kompose/charts/*.tgz .
-              helm repo index .
-              git config user.email "$CIRCLE_USERNAME@users.noreply.github.com"
-              git config user.name CircleCI
-              git add .
-              git commit -m "Published by CircleCI $CIRCLE_BUILD_URL"
-              git push origin gh-pages
-            fi
+          name: helm-github-pages
+          command: wget -O - https://raw.githubusercontent.com/int128/helm-github-pages/master/publish.sh | sh
+    branches:
+      ignore:
+        - gh-pages
