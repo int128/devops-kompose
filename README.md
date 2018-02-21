@@ -1,6 +1,6 @@
-# DevOps Kompose
+# DevOps Kompose [![CircleCI](https://circleci.com/gh/int128/devops-kompose.svg?style=shield)](https://circleci.com/gh/int128/devops-kompose)
 
-A compose of following services on Kubernetes.
+This is a compose of the following services:
 
 - Keycloak
 - Grafana
