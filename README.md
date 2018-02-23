@@ -29,6 +29,7 @@ admin_password=foo
 Create databases:
 
 ```sh
+kubectl create namespace devops
 kubectl create secret generic postgres-credentials -n devops --from-env-file .postgres-credentials
 kubectl apply -f config/postgres-create-databases.yaml
 ```
