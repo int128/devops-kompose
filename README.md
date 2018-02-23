@@ -73,12 +73,17 @@ Add the Prometheus data source to the Grafana.
 
 ### JIRA Software
 
-Install JIRA Software.
-
-TODO: publish helm
+Add the Helm repository.
 
 ```sh
-helm install jira --namespace devops --name jira -f config/helm-jira.yaml
+helm repo add devops-kompose https://int128.github.io/devops-kompose
+helm repo update
+```
+
+Install JIRA Software.
+
+```sh
+helm install devops-kompose/atlassian-jira-software --namespace devops --name jira -f config/helm-atlassian-jira-software.yaml
 ```
 
 Open https://jira.example.com and setup.
