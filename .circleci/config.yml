@@ -11,6 +11,5 @@ jobs:
       - run:
           name: helm-github-pages
           command: wget -O - https://raw.githubusercontent.com/int128/helm-github-pages/master/publish.sh | sh
-    branches:
-      ignore:
-        - gh-pages
+          environment:
+            - GITHUB_PAGES_REPO: int128/helm-charts
