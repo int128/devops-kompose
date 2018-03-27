@@ -9,4 +9,8 @@ proxy:
   scheme: https
 
 jiraOptions:
+  # Disable websudo for SAML or OpenID Connect authentication
   - "jira.websudo.is.disabled=true"
+
+persistentVolume:
+  existingClaim: jira

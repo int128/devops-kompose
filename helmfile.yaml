@@ -1,0 +1,41 @@
+repositories:
+  - name: int128.github.io
+    url: https://int128.github.io/helm-charts
+
+releases:
+  - name: keycloak
+    namespace: devops
+    chart: incubator/keycloak
+    values:
+      - config/helm-keycloak.yaml
+    set:
+      - name: keycloak.ingress.hosts[0]
+        value: keycloak.{{ env "DEVOPS_DOMAIN" }}
+      - name: keycloak.persistence.dbHost
+        value: '{{ env "DEVOPS_POSTGRES_HOST" }}'
+
+  - name: jira
+    namespace: devops
+    chart: int128.github.io/atlassian-jira-software
+    values:
+      - config/helm-atlassian-jira-software.yaml
+    set:
+      - name: ingress.hosts[0]
+        value: jira.{{ env "DEVOPS_DOMAIN" }}
+      - name: proxy.name
+        value: jira.{{ env "DEVOPS_DOMAIN" }}
+
+  - name: prometheus
+    namespace: kube-system
+    chart: stable/prometheus
+    values:
+      - config/helm-prometheus.yaml
+
+  - name: grafana
+    namespace: kube-system
+    chart: stable/grafana
+    values:
+      - config/helm-grafana.yaml
+    set:
+      - name: server.ingress.hosts[0]
+        value: grafana.{{ env "DEVOPS_DOMAIN" }}

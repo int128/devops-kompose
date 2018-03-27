@@ -1,2 +1,10 @@
 rbac:
   create: yes
+
+server:
+  persistentVolume:
+    existingClaim: prometheus-server
+
+alertmanager:
+  persistentVolume:
+    existingClaim: prometheus-alertmanager

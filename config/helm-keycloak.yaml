@@ -2,8 +2,9 @@
 keycloak:
   ingress:
     enabled: true
+    path: /auth
     hosts:
-    - keycloak.example.com
+      - keycloak.example.com
   persistence:
     deployPostgres: false
     dbVendor: POSTGRES
