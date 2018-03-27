@@ -3,8 +3,6 @@ jobs:
   build:
     docker:
       - image: alpine
-    environment:
-      - HELM_VERSION: 2.8.1
     working_directory: ~/devops-kompose
     steps:
       - checkout
