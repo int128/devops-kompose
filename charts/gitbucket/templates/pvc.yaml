@@ -1,0 +1,30 @@
+{{- if not .Values.persistentVolume.existingClaim -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ template "gitbucket.fullname" . }}
+  labels:
+    app: {{ template "gitbucket.name" . }}
+    chart: {{ template "gitbucket.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  annotations:
+  {{- if .Values.persistentVolume.annotations }}
+{{ toYaml .Values.persistentVolume.annotations | indent 4 }}
+  {{- end }}
+spec:
+  accessModes:
+{{- range .Values.persistentVolume.accessModes }}
+    - {{ . | quote }}
+{{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.persistentVolume.size | quote }}
+{{- if .Values.persistentVolume.storageClass }}
+{{- if (eq "-" .Values.persistentVolume.storageClass) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: "{{ .Values.persistentVolume.storageClass }}"
+{{- end }}
+{{- end }}
+{{- end -}}
