@@ -56,3 +56,7 @@ data:
     CREATE DATABASE jira WITH ENCODING 'UNICODE' LC_COLLATE 'C' LC_CTYPE 'C' TEMPLATE template0;
     CREATE USER jira PASSWORD 'jira';
     GRANT ALL PRIVILEGES ON DATABASE jira TO jira;
+    -- GitBucket
+    CREATE DATABASE gitbucket;
+    CREATE USER gitbucket PASSWORD 'gitbucket';
+    GRANT ALL PRIVILEGES ON DATABASE gitbucket TO gitbucket;

@@ -25,6 +25,17 @@ releases:
       - name: proxy.name
         value: jira.{{ env "DEVOPS_DOMAIN" }}
 
+  - name: gitbucket
+    namespace: devops
+    chart: int128.github.io/gitbucket
+    values:
+      - config/helm-gitbucket.yaml
+    set:
+      - name: ingress.hosts[0]
+        value: gitbucket.{{ env "DEVOPS_DOMAIN" }}
+      - name: externalDatabase.url
+        value: jdbc:postgresql://{{ env "DEVOPS_POSTGRES_HOST" }}/gitbucket
+
   - name: prometheus
     namespace: kube-system
     chart: stable/prometheus

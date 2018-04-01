@@ -1,0 +1,12 @@
+ingress:
+  enabled: true
+  hosts:
+    - gitbucket.example.com
+
+externalDatabase:
+  url: jdbc:postgresql://postgres/gitbucket
+  user: gitbucket
+  password: gitbucket
+
+persistentVolume:
+  existingClaim: gitbucket
