@@ -1,7 +1,0 @@
-server:
-  ingress:
-    enabled: true
-    hosts:
-    - grafana.example.com
-  persistentVolume:
-    existingClaim: grafana

@@ -4,8 +4,8 @@ keycloak:
     enabled: true
     path: /auth
     hosts:
-      - keycloak.example.com
+      - ${KEYCLOAK_HOST}
   persistence:
     deployPostgres: false
     dbVendor: POSTGRES
-    dbHost: xxxx.xxxx.us-west-2.rds.amazonaws.com
+    dbHost: ${DEVOPS_POSTGRES_HOST}

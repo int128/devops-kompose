@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: atlassian-jira-software
+  namespace: devops
+spec:
+  rules:
+    - host: jira.DEVOPS_DOMAIN
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: atlassian-jira-software
+              servicePort: 80
