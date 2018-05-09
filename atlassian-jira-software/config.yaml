@@ -4,7 +4,7 @@ metadata:
   name: atlassian-jira-software
   namespace: devops
 data:
-  host: jira.DEVOPS_DOMAIN
-  port: 443
+  host: jira.{DEVOPS_DOMAIN}
+  port: "443"
   scheme: https
   java-opts: -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap

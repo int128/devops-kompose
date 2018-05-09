@@ -43,7 +43,6 @@ spec:
                 configMapKeyRef:
                   name: atlassian-jira-software
                   key: java-opts
-              value: -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap ${ATLASSIAN_JIRA_JAVA_OPTS}
           volumeMounts:
             - name: data-volume
               mountPath: /var/atlassian/jira
@@ -64,6 +63,7 @@ spec:
               cpu: 800m
               memory: 2Gi
             requests:
+              cpu: 0
               memory: 2Gi
       volumes:
         - name: data-volume

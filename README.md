@@ -1,6 +1,6 @@
 # DevOps Kubernetes
 
-A compose of the following tools on Kubernetes:
+This is a compose of the following tools on Kubernetes:
 
 Component | Source
 ----------|-------
@@ -16,9 +16,9 @@ Keycloak                    | Helm chart
 
 ## Getting Started
 
-Install [Helm](https://github.com/kubernetes/helm) and [Helmfile](https://github.com/roboll/helmfile).
+### Bootstrap
 
-Change `01-env.sh` to your environment. Instead you can create `.env` if you do not want to commit the environment values.
+Install [Helm](https://github.com/kubernetes/helm) and [Helmfile](https://github.com/roboll/helmfile).
 
 Install the Helm charts.
 
@@ -26,7 +26,24 @@ Install the Helm charts.
 helmfile sync
 ```
 
+Change `01-render.sh` to your environment. You can create `.env` instead if you do not want to commit the environment values.
+
+```sh
+DEVOPS_DOMAIN="devops.example.com"
+DEVOPS_POSTGRES_HOST="xxx.xxx.us-west-2.rds.amazonaws.com"
+```
+
+Render the manifests.
+
+```sh
+./01-render.sh
+```
+
 Install the manifests.
+
+```sh
+kubectl apply -f */
+```
 
 
 ## Setup DevOps tools

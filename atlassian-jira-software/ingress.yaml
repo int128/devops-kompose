@@ -5,7 +5,7 @@ metadata:
   namespace: devops
 spec:
   rules:
-    - host: jira.DEVOPS_DOMAIN
+    - host: jira.{DEVOPS_DOMAIN}
       http:
         paths:
           - path: /

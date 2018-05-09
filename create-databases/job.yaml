@@ -15,10 +15,7 @@ spec:
         command: ["psql", "--file=/config/sql"]
         env:
         - name: PGHOST
-          valueFrom:
-            secretKeyRef:
-              name: postgres-credentials
-              key: host
+          value: {DEVOPS_POSTGRES_HOST}
         - name: PGUSER
           valueFrom:
             secretKeyRef:
