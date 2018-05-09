@@ -2,19 +2,31 @@
 
 A compose of the following tools on Kubernetes:
 
-- JIRA Software
-- Confluence
-- Mattermost
-- GitLab
-- Nextcloud
-- SonarQube
-- Nexus
-- Keycloak
+Component | Source
+----------|-------
+JIRA Software               | Manifest
+Confluence                  | Manifest
+Mattermost                  | Manifest
+GitLab                      | Manifest
+Nextcloud                   | Manifest
+SonarQube                   | Manifest
+Nexus                       | Manifest
+Keycloak                    | Helm chart
 
 
 ## Getting Started
 
-TODO
+Install [Helm](https://github.com/kubernetes/helm) and [Helmfile](https://github.com/roboll/helmfile).
+
+Change `01-env.sh` to your environment. Instead you can create `.env` if you do not want to commit the environment values.
+
+Install the Helm charts.
+
+```sh
+helmfile sync
+```
+
+Install the manifests.
 
 
 ## Setup DevOps tools

@@ -1,0 +1,18 @@
+releases:
+  - name: keycloak
+    namespace: devops
+    # https://github.com/kubernetes/charts/tree/master/incubator/keycloak
+    chart: incubator/keycloak
+    set:
+      - name: keycloak.ingress.enabled
+        value: true
+      - name: keycloak.ingress.path
+        value: /auth
+      - name: keycloak.ingress.hosts[0]
+        value: keycloak.{{ env "DEVOPS_DOMAIN" }}
+      - name: keycloak.persistence.deployPostgres
+        value: false
+      - name: keycloak.persistence.dbVendor
+        value: POSTGRES
+      - name: keycloak.persistence.dbHost
+        value: '{{ env "DEVOPS_POSTGRES_HOST" }}'
