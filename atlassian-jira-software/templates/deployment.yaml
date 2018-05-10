@@ -1,0 +1,81 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "atlassian-jira-software.fullname" . }}
+  labels:
+    app: {{ template "atlassian-jira-software.name" . }}
+    chart: {{ template "atlassian-jira-software.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ template "atlassian-jira-software.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "atlassian-jira-software.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      initContainers:
+        - name: chown-data-volume
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["chown", "daemon:daemon", "-R", "/var/atlassian/jira"]
+          volumeMounts:
+          - name: data
+            mountPath: /var/atlassian/jira
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: X_PROXY_NAME
+              value: {{ .Values.reverseProxyHost | quote }}
+            - name: X_PROXY_PORT
+              value: {{ .Values.reverseProxyPort | quote }}
+            - name: X_PROXY_SCHEME
+              value: {{ .Values.reverseProxyScheme | quote }}
+            - name: JAVA_OPTS
+              value: {{ .Values.javaOptions | quote }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 15
+          readinessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 15
+          volumeMounts:
+            - name: data
+              mountPath: /var/atlassian/jira
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      volumes:
+        - name: data
+        {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim | default (include "atlassian-jira-software.fullname" .) }}
+        {{- else }}
+          emptyDir: {}
+        {{- end -}}

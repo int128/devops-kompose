@@ -16,3 +16,14 @@ releases:
         value: POSTGRES
       - name: keycloak.persistence.dbHost
         value: '{{ env "DEVOPS_POSTGRES_HOST" }}'
+
+  - name: atlassian-jira-software
+    namespace: devops
+    chart: ./atlassian-jira-software
+    set:
+      - name: ingress.enabled
+        value: true
+      - name: ingress.hosts[0]
+        value: jira.{{ env "DEVOPS_DOMAIN" }}
+      - name: reverseProxyHost
+        value: jira.{{ env "DEVOPS_DOMAIN" }}

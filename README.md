@@ -2,16 +2,14 @@
 
 This is a compose of the following tools on Kubernetes:
 
-Component | Source
-----------|-------
-JIRA Software               | Manifest
-Confluence                  | Manifest
-Mattermost                  | Manifest
-GitLab                      | Manifest
-Nextcloud                   | Manifest
-SonarQube                   | Manifest
-Nexus                       | Manifest
-Keycloak                    | Helm chart
+- JIRA Software
+- Confluence
+- Mattermost
+- GitLab
+- Nextcloud
+- SonarQube
+- Nexus
+- Keycloak
 
 
 ## Getting Started

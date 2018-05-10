@@ -1,0 +1,47 @@
+# https://github.com/cptactionhank/docker-atlassian-jira-software
+
+image:
+  repository: cptactionhank/atlassian-jira-software
+  tag: 7.9.1
+  pullPolicy: IfNotPresent
+
+reverseProxyHost: jira.example.com
+reverseProxyPort: 443
+reverseProxyScheme: https
+javaOptions: "-Xms1536m -Xmx1536m"
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  path: /
+  hosts:
+    - jira.example.com
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 8Gi
+  # existingClaim: existing-pvc
+
+resources:
+  # Limit CPU to prevent that the JIRA takes whole CPU and other pods die.
+  limits:
+    cpu: 800m
+  requests:
+    cpu: 0
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
