@@ -8,7 +8,8 @@ image:
 reverseProxyHost: jira.example.com
 reverseProxyPort: 443
 reverseProxyScheme: https
-javaOptions: "-Xms1536m -Xmx1536m"
+javaMemorySize: 1024M
+javaOptions: ""
 
 service:
   type: ClusterIP
@@ -37,8 +38,10 @@ resources:
   # Limit CPU to prevent that the JIRA takes whole CPU and other pods die.
   limits:
     cpu: 800m
+    memory: 1536Mi
   requests:
     cpu: 0
+    memory: 1536Mi
 
 nodeSelector: {}
 

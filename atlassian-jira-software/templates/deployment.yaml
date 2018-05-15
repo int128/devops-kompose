@@ -39,7 +39,7 @@ spec:
             - name: X_PROXY_SCHEME
               value: {{ .Values.reverseProxyScheme | quote }}
             - name: JAVA_OPTS
-              value: {{ .Values.javaOptions | quote }}
+              value: "-Xmx{{ .Values.javaMemorySize }} -Xms{{ .Values.javaMemorySize }} {{ .Values.javaOptions }}"
           ports:
             - name: http
               containerPort: 8080
