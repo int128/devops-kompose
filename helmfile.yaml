@@ -3,27 +3,24 @@ releases:
     namespace: devops
     # https://github.com/kubernetes/charts/tree/master/incubator/keycloak
     chart: incubator/keycloak
-    set:
-      - name: keycloak.ingress.enabled
-        value: true
-      - name: keycloak.ingress.path
-        value: /auth
-      - name: keycloak.ingress.hosts[0]
-        value: keycloak.{{ env "DEVOPS_DOMAIN" }}
-      - name: keycloak.persistence.deployPostgres
-        value: false
-      - name: keycloak.persistence.dbVendor
-        value: POSTGRES
-      - name: keycloak.persistence.dbHost
-        value: '{{ env "DEVOPS_POSTGRES_HOST" }}'
+    values:
+      - keycloak:
+          ingress:
+            enabled: true
+            path: /auth
+            hosts:
+              - keycloak.{{ env "DEVOPS_DOMAIN" }}
+          persistence:
+            deployPostgres: false
+            dbVendor: POSTGRES
+            dbHost: {{ env "DEVOPS_POSTGRES_HOST" }}
 
   - name: atlassian-jira-software
     namespace: devops
     chart: ./atlassian-jira-software
-    set:
-      - name: ingress.enabled
-        value: true
-      - name: ingress.hosts[0]
-        value: jira.{{ env "DEVOPS_DOMAIN" }}
-      - name: reverseProxyHost
-        value: jira.{{ env "DEVOPS_DOMAIN" }}
+    values:
+      - ingress:
+          enabled: true
+          hosts:
+            - jira.{{ env "DEVOPS_DOMAIN" }}
+        reverseProxyHost: jira.{{ env "DEVOPS_DOMAIN" }}
