@@ -1,8 +1,8 @@
-# DevOps Kubernetes
+# DevOps tools on Kubernetes
 
-This is a compose of the following tools on Kubernetes:
+This is a set of the following charts with the Helmfile:
 
-- JIRA Software
+- [JIRA Software](atlassian-jira-software)
 - Confluence
 - Mattermost
 - GitLab
@@ -14,37 +14,37 @@ This is a compose of the following tools on Kubernetes:
 
 ## Getting Started
 
+### Prerequisite
+
+Make sure you have the followings:
+
+- A Kubernetes cluster
+- A wildcard domain (e.g. `*.devops.example.com`) pointing to the cluster nodes
+- A PostgreSQL database (e.g. RDS)
+
+Install the following tools:
+
+- [Helm](https://github.com/kubernetes/helm)
+- [Helmfile](https://github.com/roboll/helmfile)
+
+
 ### Bootstrap
 
-Install [Helm](https://github.com/kubernetes/helm) and [Helmfile](https://github.com/roboll/helmfile).
-
-Install the Helm charts.
-
-```sh
-helmfile sync
-```
-
-Change `01-render.sh` to your environment. You can create `.env` instead if you do not want to commit the environment values.
+Create `.env` with your environment values.
+Note that `.env` is added to `.gitignore` by default but you can remove it.
 
 ```sh
 DEVOPS_DOMAIN="devops.example.com"
 DEVOPS_POSTGRES_HOST="xxx.xxx.us-west-2.rds.amazonaws.com"
 ```
 
-Render the manifests.
+Install the Helm charts.
 
 ```sh
-./01-render.sh
+source .env
+helmfile sync
 ```
 
-Install the manifests.
-
-```sh
-kubectl apply -f */
-```
-
-
-## Setup DevOps tools
 
 ### Setup Keycloak
 
