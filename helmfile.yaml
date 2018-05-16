@@ -25,3 +25,5 @@ releases:
             - jira.{{ env "DEVOPS_DOMAIN" }}
         jira:
           reverseProxyHost: jira.{{ env "DEVOPS_DOMAIN" }}
+          # Disable websudo for SAML or OIDC
+          javaOptions: "-Djira.websudo.is.disabled=true"

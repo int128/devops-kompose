@@ -64,9 +64,10 @@ Setup your JIRA Software:
 
 1. Open https://jira.example.com.
 1. Configure the database.
-1. Install a SAML or OpenID Connect plugin, e.g.:
+1. Install a SAML or OIDC plugin, e.g.:
     - [Jira Enterprise SSO with Keycloak](https://marketplace.atlassian.com/plugins/de.codecentric.atlassian.oidc.jira-oidc-plugin/server/overview)
     - [SAML 2.0 Single Sign-On for Jira](https://marketplace.atlassian.com/plugins/com.bitium.jira.SAML2PluginJira/server/overview) (free)
+1. Configure SAML or OIDC.
 
 
 ## Contribution
