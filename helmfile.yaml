@@ -23,4 +23,5 @@ releases:
           enabled: true
           hosts:
             - jira.{{ env "DEVOPS_DOMAIN" }}
-        reverseProxyHost: jira.{{ env "DEVOPS_DOMAIN" }}
+        jira:
+          reverseProxyHost: jira.{{ env "DEVOPS_DOMAIN" }}

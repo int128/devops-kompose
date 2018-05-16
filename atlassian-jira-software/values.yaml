@@ -5,11 +5,12 @@ image:
   tag: 7.9.2
   pullPolicy: IfNotPresent
 
-reverseProxyHost: jira.example.com
-reverseProxyPort: 443
-reverseProxyScheme: https
-javaMemorySize: 1024M
-javaOptions: ""
+jira:
+  reverseProxyHost: jira.example.com
+  reverseProxyPort: 443
+  reverseProxyScheme: https
+  javaMemorySize: 1024M
+  javaOptions: ""
 
 service:
   type: ClusterIP

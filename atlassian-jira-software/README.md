@@ -9,11 +9,11 @@ The following table lists the configurable parameters of the chart and their def
 
 Parameter | Description | Default
 ----------|-------------|--------
-`reverseProxyHost` | Hostname of the server. | `jira.example.com`
-`reverseProxyPort` | Port of the server. | `443`
-`reverseProxyScheme` | `http` or `https`. | `https`
-`javaMemorySize` | JavaVM memory size passed as `-Xmx` and `-Xms`. | `1024M`
-`javaOptions` | JavaVM options. | 
+`jira.reverseProxyHost` | Hostname of the server. | `jira.example.com`
+`jira.reverseProxyPort` | Port of the server. | `443`
+`jira.reverseProxyScheme` | `http` or `https`. | `https`
+`jira.javaMemorySize` | JavaVM memory size passed as `-Xmx` and `-Xms`. | `1024M`
+`jira.javaOptions` | JavaVM options. | ``
 `persistence.enabled` | Create a persistent volume to store data. | `true`
 `persistence.size` | Size of a persistent volume. | `8Gi`
 `persistence.storageClass` | Type of a persistent volume. | `nil`
