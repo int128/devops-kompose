@@ -27,3 +27,14 @@ releases:
           reverseProxyHost: jira.{{ env "DEVOPS_DOMAIN" }}
           # Disable websudo for SAML or OIDC
           javaOptions: "-Djira.websudo.is.disabled=true"
+
+  - name: atlassian-confluence
+    namespace: devops
+    chart: ./atlassian-confluence
+    values:
+      - ingress:
+          enabled: true
+          hosts:
+            - confluence.{{ env "DEVOPS_DOMAIN" }}
+        jira:
+          reverseProxyHost: confluence.{{ env "DEVOPS_DOMAIN" }}

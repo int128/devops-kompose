@@ -3,7 +3,7 @@
 This is a set of the following charts with the Helmfile:
 
 - [JIRA Software](atlassian-jira-software)
-- Confluence
+- [Confluence](atlassian-confluence)
 - Mattermost
 - GitLab
 - Nextcloud
@@ -68,6 +68,13 @@ Setup your JIRA Software:
     - [Jira Enterprise SSO with Keycloak](https://marketplace.atlassian.com/plugins/de.codecentric.atlassian.oidc.jira-oidc-plugin/server/overview)
     - [SAML 2.0 Single Sign-On for Jira](https://marketplace.atlassian.com/plugins/com.bitium.jira.SAML2PluginJira/server/overview) (free)
 1. Configure SAML or OIDC.
+
+### Setup Confluence
+
+Setup your Confluence:
+
+1. Open https://confluence.example.com.
+1. Configure the database.
 
 
 ## Contribution
