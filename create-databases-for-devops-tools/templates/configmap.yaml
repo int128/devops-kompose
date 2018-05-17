@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "create-databases-for-devops-tools.fullname" . }}
+  labels:
+    app: {{ template "create-databases-for-devops-tools.name" . }}
+    chart: {{ template "create-databases-for-devops-tools.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  create-database.sql: |
+    -- JIRA
+    -- https://confluence.atlassian.com/adminjiraserver/connecting-jira-applications-to-postgresql-938846851.html
+    CREATE DATABASE {{ .Values.jira.database }} WITH ENCODING 'UNICODE' LC_COLLATE 'C' LC_CTYPE 'C' TEMPLATE template0;
+    CREATE USER {{ .Values.jira.user }} PASSWORD '{{ .Values.jira.password }}';
+    GRANT ALL PRIVILEGES ON DATABASE {{ .Values.jira.database }} TO {{ .Values.jira.user }};
+
+    -- Confluence
+    -- https://confluence.atlassian.com/doc/database-setup-for-postgresql-173244522.html
+    CREATE DATABASE {{ .Values.confluence.database }};
+    CREATE USER {{ .Values.confluence.user }} PASSWORD '{{ .Values.confluence.password }}';
+    GRANT ALL PRIVILEGES ON DATABASE {{ .Values.confluence.database }} TO {{ .Values.confluence.user }};
+
+    -- Keycloak
+    CREATE DATABASE {{ .Values.keycloak.database }};
+    CREATE USER {{ .Values.keycloak.user }} PASSWORD '{{ .Values.keycloak.password }}';
+    GRANT ALL PRIVILEGES ON DATABASE {{ .Values.keycloak.database }} TO {{ .Values.keycloak.user }};

@@ -1,0 +1,44 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ template "create-databases-for-devops-tools.fullname" . }}
+  labels:
+    app: {{ template "create-databases-for-devops-tools.name" . }}
+    chart: {{ template "create-databases-for-devops-tools.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  backoffLimit: 1
+  template:
+    metadata:
+      name: {{ template "create-databases-for-devops-tools.fullname" . }}
+      labels:
+        app: {{ template "create-databases-for-devops-tools.name" . }}
+        chart: {{ template "create-databases-for-devops-tools.chart" . }}
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
+    spec:
+      containers:
+      - name: psql
+        image: postgres:9
+        command: ["psql", "--file=/scripts/create-database.sql"]
+        env:
+        - name: PGHOST
+          value: {{ .Values.postgres.host }}
+        - name: PGUSER
+          value: {{ .Values.postgres.user }}
+        - name: PGPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "create-databases-for-devops-tools.fullname" . }}
+              key: postgresPassword
+        - name: PGDATABASE
+          value: postgres
+        volumeMounts:
+        - name: scripts
+          mountPath: /scripts
+      volumes:
+      - name: scripts
+        configMap:
+          name: {{ template "create-databases-for-devops-tools.fullname" . }}
+      restartPolicy: Never

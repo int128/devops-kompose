@@ -1,4 +1,13 @@
 releases:
+  - name: create-databases-for-devops-tools
+    namespace: devops
+    chart: ./create-databases-for-devops-tools
+    values:
+      - postgres:
+          host: {{ requiredEnv "DEVOPS_POSTGRES_HOST" }}
+          user: {{ requiredEnv "DEVOPS_POSTGRES_USER" }}
+          password: {{ requiredEnv "DEVOPS_POSTGRES_PASSWORD" }}
+
   - name: keycloak
     namespace: devops
     # https://github.com/kubernetes/charts/tree/master/incubator/keycloak

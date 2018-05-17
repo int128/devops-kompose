@@ -1,0 +1,4 @@
+The following databases have been created.
+
+- JIRA: {{ .Values.jira.database }}
+- Keycloak: {{ .Values.keycloak.database }}

@@ -10,6 +10,7 @@ This is a set of the following charts with the Helmfile:
 - SonarQube
 - Nexus
 - Keycloak
+- [Creating Databases Job](create-databases-for-devops-tools)
 
 
 ## Getting Started
@@ -36,6 +37,8 @@ Note that `.env` is added to `.gitignore` by default but you can remove it.
 ```sh
 DEVOPS_DOMAIN="devops.example.com"
 DEVOPS_POSTGRES_HOST="xxx.xxx.us-west-2.rds.amazonaws.com"
+DEVOPS_POSTGRES_USER="YOUR_ROOT_USER"
+DEVOPS_POSTGRES_PASSWORD="YOUR_ROOT_PASSWORD"
 ```
 
 Install the Helm charts.
