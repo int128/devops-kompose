@@ -45,5 +45,5 @@ releases:
           enabled: true
           hosts:
             - confluence.{{ env "DEVOPS_DOMAIN" }}
-        jira:
+        confluence:
           reverseProxyHost: confluence.{{ env "DEVOPS_DOMAIN" }}
