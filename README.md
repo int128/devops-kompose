@@ -4,12 +4,12 @@ This is a set of the following charts with the Helmfile:
 
 - [JIRA Software](atlassian-jira-software)
 - [Confluence](atlassian-confluence)
-- Mattermost
+- [Mattermost](https://github.com/mattermost/mattermost-kubernetes)
 - GitLab
 - Nextcloud
-- SonarQube
-- Nexus
-- Keycloak
+- [SonarQube](https://github.com/kubernetes/charts/tree/master/stable/sonarqube)
+- [Nexus](https://github.com/kubernetes/charts/tree/master/stable/sonatype-nexus)
+- [Keycloak](https://github.com/kubernetes/charts/tree/master/incubator/keycloak)
 - [Creating Databases Job](create-databases-for-devops-tools)
 
 
