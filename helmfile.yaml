@@ -18,11 +18,11 @@ releases:
             enabled: true
             path: /auth
             hosts:
-              - keycloak.{{ env "DEVOPS_DOMAIN" }}
+              - keycloak.{{ requiredEnv "DEVOPS_DOMAIN" }}
           persistence:
             deployPostgres: false
             dbVendor: POSTGRES
-            dbHost: {{ env "DEVOPS_POSTGRES_HOST" }}
+            dbHost: {{ requiredEnv "DEVOPS_POSTGRES_HOST" }}
 
   - name: atlassian-jira-software
     namespace: devops
@@ -31,9 +31,9 @@ releases:
       - ingress:
           enabled: true
           hosts:
-            - jira.{{ env "DEVOPS_DOMAIN" }}
+            - jira.{{ requiredEnv "DEVOPS_DOMAIN" }}
         jira:
-          reverseProxyHost: jira.{{ env "DEVOPS_DOMAIN" }}
+          reverseProxyHost: jira.{{ requiredEnv "DEVOPS_DOMAIN" }}
           # Disable websudo for SAML or OIDC
           javaOptions: "-Djira.websudo.is.disabled=true"
 
@@ -44,6 +44,6 @@ releases:
       - ingress:
           enabled: true
           hosts:
-            - confluence.{{ env "DEVOPS_DOMAIN" }}
+            - confluence.{{ requiredEnv "DEVOPS_DOMAIN" }}
         confluence:
-          reverseProxyHost: confluence.{{ env "DEVOPS_DOMAIN" }}
+          reverseProxyHost: confluence.{{ requiredEnv "DEVOPS_DOMAIN" }}
