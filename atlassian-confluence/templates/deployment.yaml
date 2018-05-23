@@ -27,27 +27,21 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["chown", "daemon:daemon", "-R", "/var/atlassian/application-data/confluence"]
           volumeMounts:
-          - name: data
-            mountPath: /var/atlassian/application-data/confluence
+            - name: data
+              mountPath: /var/atlassian/application-data/confluence
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            - name: CATALINA_CONNECTOR_PROXYNAME
+            - name: X_PROXY_NAME
               value: {{ .Values.confluence.reverseProxyHost | quote }}
-            - name: CATALINA_CONNECTOR_PROXYPORT
+            - name: X_PROXY_PORT
               value: {{ .Values.confluence.reverseProxyPort | quote }}
-            - name: CATALINA_CONNECTOR_SCHEME
+            - name: X_PROXY_SCHEME
               value: {{ .Values.confluence.reverseProxyScheme | quote }}
-            - name: CATALINA_CONNECTOR_SECURE
-              value: {{ (eq "https" .Values.confluence.reverseProxyScheme) | quote }}
-            - name: JVM_MINIMUM_MEMORY
-              value: {{ .Values.confluence.javaHeapSize | quote }}
-            - name: JVM_MAXIMUM_MEMORY
-              value: {{ .Values.confluence.javaHeapSize | quote }}
-            - name: JVM_SUPPORT_RECOMMENDED_ARGS
-              value: {{ printf "-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap %s" .Values.confluence.javaOptions | quote }}
+            - name: JAVA_OPTS
+              value: {{ printf "-Xmx%s -Xms%s -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap %s" .Values.confluence.javaHeapSize .Values.confluence.javaHeapSize .Values.confluence.javaOptions | quote }}
           ports:
             - name: http
               containerPort: 8090
