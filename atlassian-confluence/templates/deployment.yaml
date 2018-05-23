@@ -25,7 +25,7 @@ spec:
         - name: chown-data-volume
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ["chown", "daemon:daemon", "-R", "/var/atlassian/application-data/confluence"]
+          command: ["chown", "daemon:daemon", "-R", "/var/atlassian/confluence"]
           volumeMounts:
             - name: data
               mountPath: /var/atlassian/confluence
