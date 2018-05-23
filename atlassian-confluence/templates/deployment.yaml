@@ -28,7 +28,7 @@ spec:
           command: ["chown", "daemon:daemon", "-R", "/var/atlassian/application-data/confluence"]
           volumeMounts:
             - name: data
-              mountPath: /var/atlassian/application-data/confluence
+              mountPath: /var/atlassian/confluence
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -60,7 +60,7 @@ spec:
             timeoutSeconds: 3
           volumeMounts:
             - name: data
-              mountPath: /var/atlassian/application-data/confluence
+              mountPath: /var/atlassian/confluence
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}
