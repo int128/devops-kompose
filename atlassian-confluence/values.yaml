@@ -9,7 +9,7 @@ confluence:
   reverseProxyHost: confluence.example.com
   reverseProxyPort: 443
   reverseProxyScheme: https
-  javaMemorySize: 1024M
+  javaHeapSize: 1024m
   javaOptions: ""
 
 service:

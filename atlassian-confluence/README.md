@@ -12,7 +12,7 @@ Parameter | Description | Default
 `confluence.reverseProxyHost` | Hostname of the server. | `confluence.example.com`
 `confluence.reverseProxyPort` | Port of the server. | `443`
 `confluence.reverseProxyScheme` | `http` or `https`. | `https`
-`confluence.javaMemorySize` | JavaVM memory size passed as `-Xmx` and `-Xms`. | `1024M`
+`confluence.javaHeapSize` | JavaVM memory size passed as `-Xmx` and `-Xms`. | `1024m`
 `confluence.javaOptions` | JavaVM options. | ``
 `persistence.enabled` | Create a persistent volume to store data. | `true`
 `persistence.size` | Size of a persistent volume. | `8Gi`
@@ -26,6 +26,12 @@ Parameter | Description | Default
 
 
 ## Known issues
+
+### Memory limits
+
+This chart passes the option `-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap` to JavaVM in order to prevent OOM killing.
+It calculates Java memory size but Confluence server always requires `-Xms` and `-Xmx` options so you cannot omit `confluence.javaHeapSize`.
+
 
 ### CPU limits
 
