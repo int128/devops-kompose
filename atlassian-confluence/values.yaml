@@ -1,7 +1,7 @@
-# https://github.com/cptactionhank/docker-atlassian-confluence
+# https://hub.docker.com/r/atlassian/confluence-server
 
 image:
-  repository: cptactionhank/atlassian-confluence
+  repository: atlassian/confluence-server
   tag: 6.9.0
   pullPolicy: IfNotPresent
 

@@ -25,23 +25,29 @@ spec:
         - name: chown-data-volume
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ["chown", "daemon:daemon", "-R", "/var/atlassian/confluence"]
+          command: ["chown", "daemon:daemon", "-R", "/var/atlassian/application-data/confluence"]
           volumeMounts:
-            - name: data
-              mountPath: /var/atlassian/confluence
+          - name: data
+            mountPath: /var/atlassian/application-data/confluence
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            - name: X_PROXY_NAME
+            - name: CATALINA_CONNECTOR_PROXYNAME
               value: {{ .Values.confluence.reverseProxyHost | quote }}
-            - name: X_PROXY_PORT
+            - name: CATALINA_CONNECTOR_PROXYPORT
               value: {{ .Values.confluence.reverseProxyPort | quote }}
-            - name: X_PROXY_SCHEME
+            - name: CATALINA_CONNECTOR_SCHEME
               value: {{ .Values.confluence.reverseProxyScheme | quote }}
-            - name: JAVA_OPTS
-              value: {{ printf "-Xmx%s -Xms%s -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap %s" .Values.confluence.javaHeapSize .Values.confluence.javaHeapSize .Values.confluence.javaOptions | quote }}
+            - name: CATALINA_CONNECTOR_SECURE
+              value: {{ (eq "https" .Values.confluence.reverseProxyScheme) | quote }}
+            - name: JVM_MINIMUM_MEMORY
+              value: {{ .Values.confluence.javaHeapSize | quote }}
+            - name: JVM_MAXIMUM_MEMORY
+              value: {{ .Values.confluence.javaHeapSize | quote }}
+            - name: JVM_SUPPORT_RECOMMENDED_ARGS
+              value: {{ printf "-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap %s" .Values.confluence.javaOptions | quote }}
           ports:
             - name: http
               containerPort: 8090
@@ -60,7 +66,7 @@ spec:
             timeoutSeconds: 3
           volumeMounts:
             - name: data
-              mountPath: /var/atlassian/confluence
+              mountPath: /var/atlassian/application-data/confluence
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}

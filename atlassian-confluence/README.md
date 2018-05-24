@@ -1,6 +1,6 @@
 # Atlassian Confluence
 
-This chart bootstraps an Atlassian Confluence server using the [cptactionhank/atlassian-confluence](https://github.com/cptactionhank/docker-atlassian-confluence) image.
+This chart bootstraps an Atlassian Confluence server using [the official image](https://hub.docker.com/r/atlassian/confluence-server).
 
 
 ## Configuration
