@@ -47,7 +47,7 @@ spec:
             - name: JVM_MAXIMUM_MEMORY
               value: {{ .Values.confluence.javaHeapSize | quote }}
             - name: JVM_SUPPORT_RECOMMENDED_ARGS
-              value: {{ printf "-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap %s" .Values.confluence.javaOptions | quote }}
+              value: {{ printf "%s %s -Dsynchrony.memory.max=%s" .Values.confluence.javaMemoryOptions .Values.confluence.javaOptions .Values.synchrony.javaHeapSize | quote }}
           ports:
             - name: http
               containerPort: 8090

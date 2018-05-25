@@ -47,3 +47,11 @@ releases:
             - confluence.{{ requiredEnv "DEVOPS_DOMAIN" }}
         confluence:
           reverseProxyHost: confluence.{{ requiredEnv "DEVOPS_DOMAIN" }}
+        resources:
+          limits:
+            # for single core CPU
+            cpu: 800m
+            memory: 1800Mi
+          requests:
+            cpu: 0
+            memory: 1800Mi
