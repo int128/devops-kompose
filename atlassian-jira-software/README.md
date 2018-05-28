@@ -3,6 +3,33 @@
 This chart bootstraps an Atlassian JIRA Software server using the [cptactionhank/atlassian-jira-software](https://github.com/cptactionhank/docker-atlassian-jira-software) image.
 
 
+## TL;DR
+
+```sh
+helm install --name atlassian-jira-software int128.github.io/atlassian-jira-software
+```
+
+You should set the memory requests and limits to prevent OOM killer.
+
+```yaml
+resources:
+  limits:
+    memory: 1536Mi
+  requests:
+    memory: 1536Mi
+```
+
+If your pod runs on 1 core CPU, set the CPU limits to prevent freeze of a node.
+
+```yaml
+resources:
+  limits:
+    cpu: 800m
+  requests:
+    cpu: 0
+```
+
+
 ## Configuration
 
 The following table lists the configurable parameters of the chart and their default values.
@@ -12,7 +39,8 @@ Parameter | Description | Default
 `jira.reverseProxyHost` | Hostname of the server. | `jira.example.com`
 `jira.reverseProxyPort` | Port of the server. | `443`
 `jira.reverseProxyScheme` | `http` or `https`. | `https`
-`jira.javaMemorySize` | JavaVM memory size passed as `-Xmx` and `-Xms`. | `1024M`
+`jira.javaHeapSize` | JavaVM heap memory size. | `1024m`
+`jira.javaMemoryOptions` | JavaVM memory options. | See [values.yaml](values.yaml)
 `jira.javaOptions` | JavaVM options. | ``
 `persistence.enabled` | Create a persistent volume to store data. | `true`
 `persistence.size` | Size of a persistent volume. | `8Gi`
@@ -20,17 +48,21 @@ Parameter | Description | Default
 `persistence.existingClaim` | Name of the existing persistent volume. | `nil`
 `ingress.enabled` |	Enable ingress controller resource.	| `false`
 `ingress.hosts`	| Hostnames. | `[]`
-`resources.limits` | Pod resource limits. | `cpu: 800m, memory: 1536Mi`
-`resources.requests` | Pod resource requests. | `cpu: 0, memory: 1536Mi`
+`resources.limits` | Pod resource limits. | `{}`
+`resources.requests` | Pod resource requests. | `{}`
 `nodeSelector` | Node labels for pod assignment | `{}`
 
 
 ## Known issues
 
-### Memory limits
+### Memory
 
-JIRA server requires `-Xmx` and `-Xms` options and does not work with `-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap` option for now (see [JRASERVER-67303](https://jira.atlassian.com/browse/JRASERVER-67303)).
-You must specify JavaVM memory size.
+You should set the following parameters to prevent OOM killer.
+
+```
+[resources.limits.memory] = [jira.javaHeapSize] + 500MiB
+```
+
 
 ### CPU limits
 

@@ -61,7 +61,7 @@ Parameter | Description | Default
 
 ### Memory
 
-You must set the following parameters to prevent OOM killer.
+You should set the following parameters to prevent OOM killer.
 
 ```
 [resources.limits.memory] = [confluence.javaHeapSize] + 800MiB

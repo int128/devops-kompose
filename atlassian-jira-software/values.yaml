@@ -9,7 +9,8 @@ jira:
   reverseProxyHost: jira.example.com
   reverseProxyPort: 443
   reverseProxyScheme: https
-  javaMemorySize: 1024M
+  javaHeapSize: 1024m
+  javaMemoryOptions: "-XX:MaxMetaspaceSize=256m -XX:MaxDirectMemorySize=10m"
   javaOptions: ""
 
 service:
@@ -35,14 +36,7 @@ persistence:
   size: 8Gi
   # existingClaim: existing-pvc
 
-resources:
-  # Limit CPU to prevent that the JIRA takes whole CPU and other pods die.
-  limits:
-    cpu: 800m
-    memory: 1536Mi
-  requests:
-    cpu: 0
-    memory: 1536Mi
+resources: {}
 
 nodeSelector: {}
 
