@@ -22,8 +22,7 @@ helm install stable/atlassian-confluence --name atlassian-confluence
 
 It takes a few minutes to bootstrap a Confluence server.
 Then open your browser and you will see the [Confluence Setup Wizard](https://confluence.atlassian.com/doc/confluence-setup-guide-135691.html).
-
-**Tip:** The wizard may freeze while database initialization. Hang tight.
+The wizard may freeze while database initialization. Hang tight.
 
 To delete the release `atlassian-confluence`:
 
@@ -72,7 +71,7 @@ You can calculate memory size by:
 Here is an example of resources limits:
 
 ```yaml
-# Passed via --values
+# values.yaml
 confluence:
   javaHeapSize: 1024m
 resources:
@@ -97,7 +96,7 @@ This chart creates a `PersistentVolumeClaim` with 8GB volume by default.
 You can set size as follows:
 
 ```yaml
-# Passed via --values atlassian-confluence.yaml
+# values.yaml
 persistence:
   size: 100Gi
 ```
@@ -113,7 +112,7 @@ Synchrony is disabled by default in this chart because it requires much memory.
 You can enable it as follows:
 
 ```yaml
-# Passed via --values atlassian-confluence.yaml
+# values.yaml
 synchrony:
   javaHeapSize: 1024m
 ```
