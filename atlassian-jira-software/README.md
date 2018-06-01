@@ -1,32 +1,33 @@
 # Atlassian JIRA Software
 
-This chart bootstraps an Atlassian JIRA Software server using the [cptactionhank/atlassian-jira-software](https://github.com/cptactionhank/docker-atlassian-jira-software) image.
+[Atlassian JIRA Software](https://www.atlassian.com/software/jira) is the project management tool for agile teams.
+
+This chart bootstraps a deployment with the [cptactionhank/atlassian-jira-software](https://github.com/cptactionhank/docker-atlassian-jira-software) image image on a Kubernetes cluster.
 
 
-## TL;DR
+## Prerequisites
+
+- Kubernetes 1.8+ with Beta APIs enabled
+- PV provisioner support in the underlying infrastructure
+- At least 2GB Memory
+
+
+## Getting Started
+
+To install the chart with the release name `atlassian-jira-software`:
 
 ```sh
-helm install --name atlassian-jira-software int128.github.io/atlassian-jira-software
+helm install stable/atlassian-jira-software --name atlassian-jira-software
 ```
 
-You should set the memory requests and limits to prevent OOM killer.
+It takes a few minutes to bootstrap a JIRA server.
+Then open your browser and you will see the [Setup Wizard](https://confluence.atlassian.com/adminjiraserver/running-the-setup-wizard-938846872.html).
+The wizard may freeze while database initialization. Hang tight.
 
-```yaml
-resources:
-  limits:
-    memory: 1536Mi
-  requests:
-    memory: 1536Mi
-```
+To delete the release `atlassian-jira-software`:
 
-If your pod runs on 1 core CPU, set the CPU limits to prevent freeze of a node.
-
-```yaml
-resources:
-  limits:
-    cpu: 800m
-  requests:
-    cpu: 0
+```sh
+helm delete atlassian-jira-software
 ```
 
 
@@ -53,19 +54,57 @@ Parameter | Description | Default
 `nodeSelector` | Node labels for pod assignment | `{}`
 
 
-## Known issues
+### Resources Limits
 
-### Memory
+It is highly recommended to set resources limits for the following reasons.
 
-You should set the following parameters to prevent OOM killer.
+- Set memory request and limit to prevent containers suddenly die due to OOM killer.
+- Set CPU limit to prevent other pods fail liveness probe and die.
+
+You can calculate memory size by:
 
 ```
-[resources.limits.memory] = [jira.javaHeapSize] + 500MiB
+[resources.limits.memory] = [confluence.javaHeapSize] + 600MiB or more
+```
+
+Here is an example of resources limits:
+
+```yaml
+# values.yaml
+confluence:
+  javaHeapSize: 1024m
+resources:
+  limits:
+    memory: 1600Mi
+    cpu: 800m
+  requests:
+    memory: 1600Mi
+    cpu: 0
 ```
 
 
-### CPU limits
+### Persistence
 
-JIRA server consumes much CPU resource on start up and sometimes other pods are killed due to liveness probe on a single core instance.
-This chart limits CPU resource to prevent killing other pods by default.
-You can safely remove CPU limits on a multi core instance.
+Confluence stores data into both database and filesystem.
+You can choose one of the following types in the setup wizard:
+
+1. Use an embedded H2 database in the same volume.
+1. Use an external database.
+
+This chart creates a `PersistentVolumeClaim` with 8GB volume by default.
+You can set size as follows:
+
+```yaml
+# values.yaml
+persistence:
+  size: 100Gi
+```
+
+
+## Upgrade JIRA Software
+
+To upgrade to a more recent version of JIRA Software:
+
+```sh
+helm upgrade atlassian-jira-software
+```
