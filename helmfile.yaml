@@ -40,10 +40,10 @@ releases:
           limits:
             # for single core CPU
             cpu: 800m
-            memory: 1536Mi
+            memory: 1600Mi
           requests:
             cpu: 0
-            memory: 1536Mi
+            memory: 1600Mi
 
   - name: atlassian-confluence
     namespace: devops
