@@ -35,5 +35,9 @@ spec:
             backend:
               serviceName: {{ $fullName }}
               servicePort: http
+          - path: /synchrony
+            backend:
+              serviceName: {{ $fullName }}
+              servicePort: synchrony
   {{- end }}
 {{- end }}

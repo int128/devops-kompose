@@ -52,6 +52,9 @@ spec:
             - name: http
               containerPort: 8090
               protocol: TCP
+            - name: synchrony
+              containerPort: 8091
+              protocol: TCP
           livenessProbe:
             tcpSocket:
               port: http

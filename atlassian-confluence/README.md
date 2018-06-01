@@ -1,35 +1,34 @@
 # Atlassian Confluence
 
-This chart bootstraps an Atlassian Confluence server using [the official image](https://hub.docker.com/r/atlassian/confluence-server).
+[Atlassian Confluence](https://www.atlassian.com/software/confluence) is an enterprise wiki collaboration platform.
+
+This chart bootstraps a deployment with the [atlassian/confluence-server](https://bitbucket.org/atlassian/docker-atlassian-confluence-server) image on a Kubernetes cluster.
 
 
-## TL;DR
+## Prerequisites
+
+- Kubernetes 1.8+ with Beta APIs enabled
+- PV provisioner support in the underlying infrastructure
+- At least 2GB Memory
+
+
+## Getting Started
+
+To install the chart with the release name `atlassian-confluence`:
 
 ```sh
-helm install --name atlassian-confluence int128.github.io/atlassian-confluence
+helm install stable/atlassian-confluence --name atlassian-confluence
 ```
 
-You must set the memory parameters to prevent OOM killer.
-Minimum requirement is:
+It takes a few minutes to bootstrap a Confluence server.
+Then open your browser and you will see the [Confluence Setup Wizard](https://confluence.atlassian.com/doc/confluence-setup-guide-135691.html).
 
-```yaml
-confluence:
-  javaHeapSize: 1024m
-resources:
-  limits:
-    memory: 1800Mi
-  requests:
-    memory: 1800Mi
-```
+**Tip:** The wizard may freeze while database initialization. Hang tight.
 
-If your pod runs on single core CPU, set the following parameters to prevent freeze of a node:
+To delete the release `atlassian-confluence`:
 
-```yaml
-resources:
-  limits:
-    cpu: 800m
-  requests:
-    cpu: 0
+```sh
+helm delete atlassian-confluence
 ```
 
 
@@ -43,7 +42,7 @@ Parameter | Description | Default
 `confluence.reverseProxyPort` | Port of the server. | `443`
 `confluence.reverseProxyScheme` | `http` or `https`. | `https`
 `confluence.javaHeapSize` | JavaVM heap size passed as `-Xmx` and `-Xms`. | `1024m`
-`confluence.javaOptions` | JavaVM memory options. | `-XX:MaxMetaSpaceSize=300m -XX:DirectMemorySize=10m`
+`confluence.javaMemoryOptions` | JavaVM memory options. | `-XX:MaxMetaSpaceSize=300m -XX:DirectMemorySize=10m`
 `confluence.javaOptions` | JavaVM options. | ``
 `synchrony.javaHeapSize` | JavaVM heap size for Synchrony. | `0m` (disable Synchrony)
 `persistence.enabled` | Create a persistent volume to store data. | `true`
@@ -57,19 +56,75 @@ Parameter | Description | Default
 `nodeSelector` | Node labels for pod assignment | `{}`
 
 
-## Known issues
+### Resources Limits
 
-### Memory
+It is highly recommended to set resources limits for the following reasons.
 
-You should set the following parameters to prevent OOM killer.
+- Set memory request and limit to prevent containers suddenly die due to OOM killer.
+- Set CPU limit to prevent other pods fail liveness probe and die.
+
+You can calculate memory size by:
 
 ```
 [resources.limits.memory] = [confluence.javaHeapSize] + 800MiB
 ```
 
+Here is an example of resources limits:
 
-### CPU
+```yaml
+# Passed via --values
+confluence:
+  javaHeapSize: 1024m
+resources:
+  limits:
+    memory: 1800Mi
+    cpu: 800m
+  requests:
+    memory: 1800Mi
+    cpu: 0
+```
 
-Confluence server consumes much CPU resource on start up and sometimes other pods are killed due to liveness probe on a single core instance.
-This chart limits CPU resource to prevent killing other pods by default.
-You can safely remove CPU limits on a multi core instance.
+
+### Persistence
+
+Confluence stores data into both database and filesystem.
+You can choose one of the following types in the setup wizard:
+
+1. Use an embedded H2 database in the same volume.
+1. Use an external database.
+
+This chart creates a `PersistentVolumeClaim` with 8GB volume by default.
+You can set size as follows:
+
+```yaml
+# Passed via --values atlassian-confluence.yaml
+persistence:
+  size: 100Gi
+```
+
+
+### Synchrony (collaborative editing)
+
+Confluence provides the collaborative editing feature.
+It needs Synchrony which is a separate process executed by Confluence.
+See [Administering Collaborative Editing](https://confluence.atlassian.com/doc/administering-collaborative-editing-858772086.html) for details.
+
+Synchrony is disabled by default in this chart because it requires much memory.
+You can enable it as follows:
+
+```yaml
+# Passed via --values atlassian-confluence.yaml
+synchrony:
+  javaHeapSize: 1024m
+```
+
+Also you need to increase the memory request and limit.
+
+
+## Upgrade Confluence
+
+To upgrade to a more recent version of Confluence:
+
+```sh
+helm upgrade atlassian-confluence
+```
