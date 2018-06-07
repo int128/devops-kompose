@@ -63,3 +63,7 @@ releases:
           requests:
             cpu: 0
             memory: 1800Mi
+
+repositories:
+  - name: incubator
+    url: https://kubernetes-charts-incubator.storage.googleapis.com/
