@@ -10,7 +10,6 @@ This is a set of the following charts with the Helmfile:
 - [SonarQube](https://github.com/kubernetes/charts/tree/master/stable/sonarqube)
 - [Nexus](https://github.com/kubernetes/charts/tree/master/stable/sonatype-nexus)
 - [Keycloak](https://github.com/kubernetes/charts/tree/master/incubator/keycloak)
-- [Creating Databases Job](create-databases-for-devops-tools)
 
 
 ## Getting Started
