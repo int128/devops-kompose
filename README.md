@@ -9,7 +9,7 @@ This is a set of the following charts with the Helmfile:
 - Nextcloud
 - [SonarQube](https://github.com/kubernetes/charts/tree/master/stable/sonarqube)
 - [Nexus](https://github.com/kubernetes/charts/tree/master/stable/sonatype-nexus)
-- [Keycloak](https://github.com/kubernetes/charts/tree/master/incubator/keycloak)
+- [Keycloak](https://github.com/kubernetes/charts/tree/master/stable/keycloak)
 
 
 ## Getting Started

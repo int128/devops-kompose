@@ -1,8 +1,8 @@
 releases:
   - name: keycloak
     namespace: devops
-    # https://github.com/kubernetes/charts/tree/master/incubator/keycloak
-    chart: incubator/keycloak
+    # https://github.com/kubernetes/charts/tree/master/stable/keycloak
+    chart: stable/keycloak
     values:
       - keycloak:
           ingress:
@@ -14,6 +14,8 @@ releases:
             deployPostgres: false
             dbVendor: POSTGRES
             dbHost: {{ requiredEnv "DEVOPS_POSTGRES_HOST" }}
+            dbUser: keycloak
+            dbPassword: keycloak
 
   - name: atlassian-jira-software
     namespace: devops
@@ -55,6 +57,3 @@ releases:
             cpu: 0
             memory: 1800Mi
 
-repositories:
-  - name: incubator
-    url: https://kubernetes-charts-incubator.storage.googleapis.com/
