@@ -1,0 +1,29 @@
+Mattermost is running now.
+
+
+{{- if .Values.ingress.enabled }}
+1. Open the Mattermost URL:
+{{- range .Values.ingress.hosts }}
+   https://{{ . }}
+{{- end }}
+
+{{- else if contains "NodePort" .Values.service.type }}
+1. Get the Mattermost URL by running:
+  export NODE_PORT=$(kubectl get -o jsonpath="{.spec.ports[0].nodePort}" services {{ template "mattermost.fullname" . }})
+  export NODE_IP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}")
+  echo https://$NODE_IP:$NODE_PORT/
+
+{{- else if contains "LoadBalancer" .Values.service.type }}
+1. Get the Mattermost URL by running:
+  export SERVICE_IP=$(kubectl get svc {{ template "mattermost.fullname" . }} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+  echo https://$SERVICE_IP/
+
+{{- else if contains "ClusterIP"  .Values.service.type }}
+1. Get the Mattermost URL by running:
+  export POD_NAME=$(kubectl get pods -n {{ .Release.Namespace }} -l "app={{ template "mattermost.name" . }},release={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
+  echo https://127.0.0.1:80/
+  kubectl -n {{ .Release.Namespace }} port-forward $POD_NAME 8443:8443
+
+{{- end }}
+
+2. Create a first user and channel.

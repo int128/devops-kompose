@@ -57,3 +57,22 @@ releases:
             cpu: 0
             memory: 1800Mi
 
+  - name: mattermost
+    namespace: devops
+    chart: ./mattermost
+    values:
+      - ingress:
+          enabled: true
+          hosts:
+            - mattermost.{{ requiredEnv "DEVOPS_DOMAIN" }}
+        mattermost:
+          dbHost: {{ requiredEnv "DEVOPS_POSTGRES_HOST" }}
+          dbName: mattermost
+          dbUsername: mattermost
+          dbPassword: mattermost
+        resources:
+          limits:
+            memory: 512Mi
+          requests:
+            memory: 512Mi
+

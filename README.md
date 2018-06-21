@@ -4,7 +4,7 @@ This is a set of the following charts with the Helmfile:
 
 - [JIRA Software](atlassian-jira-software)
 - [Confluence](atlassian-confluence)
-- [Mattermost](https://github.com/mattermost/mattermost-kubernetes)
+- [Mattermost](mattermost)
 - GitLab
 - Nextcloud
 - [SonarQube](https://github.com/kubernetes/charts/tree/master/stable/sonarqube)
@@ -83,6 +83,12 @@ Setup your Confluence:
 
 1. Open https://confluence.example.com.
 1. Configure the database.
+
+### Setup Mattermost
+Setup your Confluence:
+
+1. Open https://mattermost.example.com.
+1. Create a first user and channel.
 
 
 ## Contribution

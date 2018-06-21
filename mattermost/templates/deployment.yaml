@@ -1,0 +1,97 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "mattermost.fullname" . }}
+  labels:
+    app: {{ template "mattermost.name" . }}
+    chart: {{ template "mattermost.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: {{ template "mattermost.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "mattermost.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      initContainers:
+        - name: chown-data-volume
+          image: alpine
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["chown", "2000:2000", "-R", "/mattermost"]
+          volumeMounts:
+            - name: data
+              subPath: config
+              mountPath: /mattermost/config
+            - name: data
+              subPath: data
+              mountPath: /mattermost/data
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: DB_HOST
+              value: {{ .Values.mattermost.dbHost | quote }}
+            - name: DB_PORT_NUMBER
+              value: {{ .Values.mattermost.dbPort | quote }}
+            - name: MM_DBNAME
+              value: {{ .Values.mattermost.dbName | quote }}
+            - name: MM_USERNAME
+              value: {{ .Values.mattermost.dbUsername | quote }}
+            - name: MM_PASSWORD
+              value: {{ .Values.mattermost.dbPassword | quote }}
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          volumeMounts:
+            - name: data
+              subPath: config
+              mountPath: /mattermost/config
+            - name: data
+              subPath: data
+              mountPath: /mattermost/data
+          livenessProbe:
+            httpGet:
+              path: /system/ping
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 15
+            timeoutSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /system/ping
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 15
+            timeoutSeconds: 3
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      volumes:
+        - name: data
+        {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim | default (include "mattermost.fullname" .) }}
+        {{- else }}
+          emptyDir: {}
+        {{- end -}}

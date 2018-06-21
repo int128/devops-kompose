@@ -1,0 +1,10 @@
+apiVersion: v1
+version: 0.1.0
+appVersion: 4.10.1
+description: Mattermost
+name: mattermost
+keywords:
+- mattermost
+home: https://www.mattermost.org
+sources:
+- https://github.com/mattermost/mattermost-docker
