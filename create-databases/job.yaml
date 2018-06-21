@@ -1,0 +1,40 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: create-databases
+spec:
+  template:
+    metadata:
+      name: create-databases
+    spec:
+      containers:
+      - name: psql
+        image: postgres:9
+        command: ["sh", "/scripts/create.sh"]
+        env:
+        - name: PGHOST
+          valueFrom:
+            secretKeyRef:
+              name: create-databases
+              key: host
+        - name: PGUSER
+          valueFrom:
+            secretKeyRef:
+              name: create-databases
+              key: admin_user
+        - name: PGPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: create-databases
+              key: admin_password
+        - name: PGDATABASE
+          value: postgres
+        volumeMounts:
+        - name: create-databases-scripts
+          mountPath: /scripts
+      volumes:
+      - name: create-databases-scripts
+        configMap:
+          name: create-databases-scripts
+      restartPolicy: Never
+  backoffLimit: 4

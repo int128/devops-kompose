@@ -12,9 +12,7 @@ This is a set of the following charts with the Helmfile:
 - [Keycloak](https://github.com/kubernetes/charts/tree/master/stable/keycloak)
 
 
-## Getting Started
-
-### Prerequisite
+## Build a stack
 
 Make sure you have the followings:
 
@@ -28,25 +26,33 @@ Install the following tools:
 - [Helmfile](https://github.com/roboll/helmfile)
 
 
-### Bootstrap
+### Configure
 
 Create `.env` with your environment values.
 Note that `.env` is added to `.gitignore` by default but you can remove it.
 
 ```sh
-DEVOPS_DOMAIN="devops.example.com"
-DEVOPS_POSTGRES_HOST="xxx.xxx.us-west-2.rds.amazonaws.com"
-DEVOPS_POSTGRES_USER="YOUR_ROOT_USER"
-DEVOPS_POSTGRES_PASSWORD="YOUR_ROOT_PASSWORD"
+export DEVOPS_DOMAIN="devops.example.com"
+export DEVOPS_POSTGRES_HOST="xxx.xxx.us-west-2.rds.amazonaws.com"
 ```
+
+Load the environment values.
+
+```sh
+source .env
+```
+
+### Create databases
+
+See [create-databases/README.md](create-databases/README.md).
+
+### Bootstrap
 
 Install the Helm charts.
 
 ```sh
-source .env
 helmfile sync
 ```
-
 
 ### Setup Keycloak
 

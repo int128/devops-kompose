@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: create-databases-scripts
+data:
+  create.sh: |
+    set -x
+    cd "`dirname "$0"`"
+    psql --file=keycloak.sql
+    psql --file=jira.sql
+    psql --file=confluence.sql
+    psql --file=gitlab.sql
+    psql --file=gitlab_post.sql gitlab
+    psql --file=mattermost.sql
+    psql --file=sonarqube.sql
+    psql --file=nextcloud.sql
+
+  keycloak.sql: |
+    -- Keycloak
+    CREATE DATABASE keycloak;
+    CREATE USER keycloak PASSWORD 'keycloak';
+    GRANT ALL PRIVILEGES ON DATABASE keycloak TO keycloak;
+
+  jira.sql: |
+    -- JIRA
+    -- https://confluence.atlassian.com/adminjiraserver072/connecting-jira-applications-to-postgresql-828787559.html
+    CREATE USER jira PASSWORD 'jira';
+    CREATE DATABASE jira WITH ENCODING 'UNICODE' LC_COLLATE 'C' LC_CTYPE 'C' TEMPLATE template0;
+    GRANT ALL PRIVILEGES ON DATABASE jira TO jira;
+
+  confluence.sql: |
+    -- Confluence
+    -- https://confluence.atlassian.com/doc/database-setup-for-postgresql-173244522.html
+    CREATE USER confluence PASSWORD 'confluence';
+    CREATE DATABASE confluence;
+    GRANT ALL PRIVILEGES ON DATABASE confluence TO confluence;
+
+  gitlab.sql: |
+    -- GitLab
+    -- https://docs.gitlab.com/omnibus/settings/database.html
+    CREATE USER gitlab PASSWORD 'gitlab';
+    CREATE DATABASE gitlab;
+    GRANT ALL PRIVILEGES ON DATABASE gitlab TO gitlab;
+
+  gitlab_post.sql: |
+    -- GitLab (post script)
+    CREATE EXTENSION pg_trgm;
+
+  mattermost.sql: |
+    -- Mattermost
+    -- https://github.com/mattermost/mattermost-docker
+    CREATE USER mattermost PASSWORD 'mattermost';
+    CREATE DATABASE mattermost;
+    GRANT ALL PRIVILEGES ON DATABASE mattermost TO mattermost;
+
+  sonarqube.sql: |
+    -- SonarQube
+    -- https://docs.sonarqube.org/display/SONAR/Installing+the+Server
+    CREATE USER sonarqube PASSWORD 'sonarqube';
+    CREATE DATABASE sonarqube;
+    GRANT ALL PRIVILEGES ON DATABASE sonarqube TO sonarqube;
+
+  nextcloud.sql: |
+    -- nextcloud
+    CREATE USER nextcloud PASSWORD 'nextcloud';
+    CREATE DATABASE nextcloud;
+    GRANT ALL PRIVILEGES ON DATABASE nextcloud TO nextcloud;
