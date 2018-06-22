@@ -5,7 +5,7 @@ This is a set of the following charts with the Helmfile:
 - [JIRA Software](atlassian-jira-software)
 - [Confluence](atlassian-confluence)
 - [Mattermost](mattermost)
-- GitLab
+- [GitLab](gitlab)
 - Nextcloud
 - [SonarQube](https://github.com/kubernetes/charts/tree/master/stable/sonarqube)
 - [Nexus](https://github.com/kubernetes/charts/tree/master/stable/sonatype-nexus)

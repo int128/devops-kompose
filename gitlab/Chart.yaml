@@ -1,0 +1,10 @@
+apiVersion: v1
+version: 0.1.0
+appVersion: 10.8.4-ce.0
+description: GitLab.
+name: gitlab
+keywords:
+- gitlab
+home: https://about.gitlab.com/getting-help/
+sources:
+- https://gitlab.com/gitlab-org/omnibus-gitlab/tree/master/docker

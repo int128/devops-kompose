@@ -62,6 +62,26 @@ releases:
             cpu: 0
             memory: 2048Mi
 
+  - name: gitlab
+    namespace: devops
+    chart: ./gitlab
+    values:
+      - ingress:
+          enabled: true
+          hosts:
+            - gitlab.{{ requiredEnv "DEVOPS_DOMAIN" }}
+        gitlab:
+          dbHost: {{ requiredEnv "DEVOPS_POSTGRES_HOST" }}
+          dbName: gitlab
+          dbUsername: gitlab
+          dbPassword: gitlab
+          externalURL: https://gitlab.{{ requiredEnv "DEVOPS_DOMAIN" }}
+        resources:
+          limits:
+            memory: 2Gi
+          requests:
+            memory: 2Gi
+
   - name: mattermost
     namespace: devops
     chart: ./mattermost
