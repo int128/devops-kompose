@@ -33,10 +33,10 @@ releases:
           limits:
             # for single core CPU
             cpu: 800m
-            memory: 1600Mi
+            memory: 2048Mi
           requests:
             cpu: 0
-            memory: 1600Mi
+            memory: 2048Mi
 
   - name: atlassian-confluence
     namespace: devops
@@ -52,10 +52,10 @@ releases:
           limits:
             # for single core CPU
             cpu: 800m
-            memory: 1800Mi
+            memory: 2048Mi
           requests:
             cpu: 0
-            memory: 1800Mi
+            memory: 2048Mi
 
   - name: mattermost
     namespace: devops

@@ -64,7 +64,7 @@ It is highly recommended to set resources limits for the following reasons.
 You can calculate memory size by:
 
 ```
-[resources.limits.memory] = [confluence.javaHeapSize] + 600MiB or more
+[resources.limits.memory] = [confluence.javaHeapSize] + 1GiB
 ```
 
 Here is an example of resources limits:
@@ -75,10 +75,10 @@ confluence:
   javaHeapSize: 1024m
 resources:
   limits:
-    memory: 1600Mi
+    memory: 2048Mi
     cpu: 800m
   requests:
-    memory: 1600Mi
+    memory: 2048Mi
     cpu: 0
 ```
 

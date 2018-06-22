@@ -41,7 +41,7 @@ Parameter | Description | Default
 `confluence.reverseProxyPort` | Port of the server. | `443`
 `confluence.reverseProxyScheme` | `http` or `https`. | `https`
 `confluence.javaHeapSize` | JavaVM heap size passed as `-Xmx` and `-Xms`. | `1024m`
-`confluence.javaMemoryOptions` | JavaVM memory options. | `-XX:MaxMetaSpaceSize=300m -XX:DirectMemorySize=10m`
+`confluence.javaMemoryOptions` | JavaVM memory options. | See [values.yaml](values.yaml)
 `confluence.javaOptions` | JavaVM options. | ``
 `synchrony.javaHeapSize` | JavaVM heap size for Synchrony. | `0m` (disable Synchrony)
 `persistence.enabled` | Create a persistent volume to store data. | `true`
@@ -65,7 +65,7 @@ It is highly recommended to set resources limits for the following reasons.
 You can calculate memory size by:
 
 ```
-[resources.limits.memory] = [confluence.javaHeapSize] + 800MiB
+[resources.limits.memory] = [confluence.javaHeapSize] + 1GiB
 ```
 
 Here is an example of resources limits:
@@ -76,10 +76,10 @@ confluence:
   javaHeapSize: 1024m
 resources:
   limits:
-    memory: 1800Mi
+    memory: 2048Mi
     cpu: 800m
   requests:
-    memory: 1800Mi
+    memory: 2048Mi
     cpu: 0
 ```
 
