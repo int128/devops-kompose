@@ -16,6 +16,11 @@ releases:
             dbHost: {{ requiredEnv "DEVOPS_POSTGRES_HOST" }}
             dbUser: keycloak
             dbPassword: keycloak
+        resources:
+          limits:
+            memory: 512Mi
+          requests:
+            memory: 512Mi
 
   - name: atlassian-jira-software
     namespace: devops
