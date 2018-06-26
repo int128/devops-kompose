@@ -1,11 +1,12 @@
 # DevOps tools on Kubernetes
 
-This is a set of the following charts with the Helmfile:
+This is a set of the following charts in the Helmfile:
 
 - [JIRA Software](atlassian-jira-software)
 - [Confluence](atlassian-confluence)
 - [Mattermost](mattermost)
 - [GitLab](gitlab)
+- [HackMD](https://github.com/kubernetes/charts/tree/master/stable/hackmd)
 - Nextcloud
 - [SonarQube](https://github.com/kubernetes/charts/tree/master/stable/sonarqube)
 - [Nexus](https://github.com/kubernetes/charts/tree/master/stable/sonatype-nexus)

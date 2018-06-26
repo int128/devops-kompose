@@ -14,6 +14,7 @@ data:
     psql --file=mattermost.sql
     psql --file=sonarqube.sql
     psql --file=nextcloud.sql
+    psql --file=hackmd.sql
 
   keycloak.sql: |
     -- Keycloak
@@ -65,3 +66,9 @@ data:
     CREATE USER nextcloud PASSWORD 'nextcloud';
     CREATE DATABASE nextcloud;
     GRANT ALL PRIVILEGES ON DATABASE nextcloud TO nextcloud;
+
+  hackmd.sql: |
+    -- HackMD
+    CREATE USER hackmd PASSWORD 'hackmd';
+    CREATE DATABASE hackmd;
+    GRANT ALL PRIVILEGES ON DATABASE hackmd TO hackmd;

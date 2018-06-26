@@ -97,7 +97,30 @@ releases:
           dbPassword: mattermost
         resources:
           limits:
-            memory: 512Mi
+            memory: 256Mi
           requests:
-            memory: 512Mi
+            memory: 256Mi
 
+  # Pending issue https://github.com/kubernetes/charts/pull/6294
+  # You need to fix HMD_DB_URL in the deployment.
+  - name: hackmd
+    namespace: devops
+    chart: stable/hackmd
+    values:
+      - ingress:
+          enabled: true
+          hosts:
+            - hackmd.{{ requiredEnv "DEVOPS_DOMAIN" }}
+        postgresql:
+          install: false
+          postgresHost: {{ requiredEnv "DEVOPS_POSTGRES_HOST" }}
+          postgresDatabase: hackmd
+          postgresUser: hackmd
+          postgresPassword: hackmd
+        persistence:
+          enabled: false
+        resources:
+          limits:
+            memory: 256Mi
+          requests:
+            memory: 256Mi
