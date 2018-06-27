@@ -2,15 +2,17 @@
 
 This is a set of the following charts in the Helmfile:
 
-- [JIRA Software](atlassian-jira-software)
-- [Confluence](atlassian-confluence)
-- [Mattermost](mattermost)
-- [GitLab](gitlab)
-- [HackMD](https://github.com/kubernetes/charts/tree/master/stable/hackmd)
-- [Nextcloud](nextcloud)
-- [SonarQube](https://github.com/kubernetes/charts/tree/master/stable/sonarqube)
-- [Nexus](https://github.com/kubernetes/charts/tree/master/stable/sonatype-nexus)
-- [Keycloak](https://github.com/kubernetes/charts/tree/master/stable/keycloak)
+Component     | Chart
+--------------|------
+JIRA Software | [./atlassian-jira-software](atlassian-jira-software)
+Confluence    | [./atlassian-confluence](atlassian-confluence)
+Mattermost    | [./mattermost](mattermost)
+GitLab        | [./gitlab](gitlab)
+HackMD        | [stable/hackmd](https://github.com/kubernetes/charts/tree/master/stable/hackmd)
+Nextcloud     | [./nextcloud](nextcloud)
+SonarQube     | [stable/sonarqube](https://github.com/kubernetes/charts/tree/master/stable/sonarqube)
+Nexus         | [stable/sonatype-nexus](https://github.com/kubernetes/charts/tree/master/stable/sonatype-nexus)
+Keycloak      | [stable/keycloak](https://github.com/kubernetes/charts/tree/master/stable/keycloak)
 
 
 ## Build a stack
