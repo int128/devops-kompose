@@ -1,0 +1,121 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "nextcloud.fullname" . }}
+  labels:
+    app: {{ template "nextcloud.name" . }}
+    chart: {{ template "nextcloud.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: {{ template "nextcloud.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "nextcloud.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+{{- if .Values.adminUsername }}
+            - name: NEXTCLOUD_ADMIN_USER
+              value: {{ .Values.adminUsername }}
+            - name: NEXTCLOUD_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "nextcloud.fullname" . }}
+                  key: adminPassword
+{{- end }}
+{{- if (eq "SQLITE" .Values.externalDatabase.type) }}
+            - name: SQLITE_DATABASE
+              value: {{ .Values.externalDatabase.database }}
+{{- else if (eq "MYSQL" .Values.externalDatabase.type) }}
+            - name: MYSQL_DATABASE
+              value: {{ .Values.externalDatabase.database }}
+            - name: MYSQL_USER
+              value: {{ .Values.externalDatabase.username }}
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "nextcloud.fullname" . }}
+                  key: externalDatabasePassword
+            - name: MYSQL_HOST
+              value: {{ .Values.externalDatabase.host }}
+{{- else if (eq "POSTGRES" .Values.externalDatabase.type) }}
+            - name: POSTGRES_DB
+              value: {{ .Values.externalDatabase.database }}
+            - name: POSTGRES_USER
+              value: {{ .Values.externalDatabase.username }}
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "nextcloud.fullname" . }}
+                  key: externalDatabasePassword
+            - name: POSTGRES_HOST
+              value: {{ .Values.externalDatabase.host }}
+{{- end }}
+          volumeMounts:
+            - name: data
+              mountPath: /var/www/html/custom_apps
+              subPath: custom_apps
+            - name: data
+              mountPath: /var/www/html/config
+              subPath: config
+            - name: data
+              mountPath: /var/www/html/data
+              subPath: data
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /status.php
+              port: http
+              httpHeaders:
+                - name: Host
+                  value: localhost
+            initialDelaySeconds: 120
+            timeoutSeconds: 5
+            failureThreshold: 6
+          readinessProbe:
+            httpGet:
+              path: /status.php
+              port: http
+              httpHeaders:
+                - name: Host
+                  value: localhost
+            initialDelaySeconds: 30
+            timeoutSeconds: 3
+            periodSeconds: 5
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      volumes:
+        - name: data
+        {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim | default (include "nextcloud.fullname" .) }}
+        {{- else }}
+          emptyDir: {}
+        {{- end -}}

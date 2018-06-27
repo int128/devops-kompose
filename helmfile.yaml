@@ -101,6 +101,26 @@ releases:
           requests:
             memory: 256Mi
 
+  - name: nextcloud
+    namespace: devops
+    chart: ./nextcloud
+    values:
+      - ingress:
+          enabled: true
+          hosts:
+            - nextcloud.{{ requiredEnv "DEVOPS_DOMAIN" }}
+        externalDatabase:
+          type: POSTGRES
+          host: {{ requiredEnv "DEVOPS_POSTGRES_HOST" }}
+          database: nextcloud
+          username: nextcloud
+          password: nextcloud
+        resources:
+          limits:
+            memory: 256Mi
+          requests:
+            memory: 256Mi
+
   # Pending issue https://github.com/kubernetes/charts/pull/6294
   # You need to fix HMD_DB_URL in the deployment.
   - name: hackmd

@@ -7,7 +7,7 @@ This is a set of the following charts in the Helmfile:
 - [Mattermost](mattermost)
 - [GitLab](gitlab)
 - [HackMD](https://github.com/kubernetes/charts/tree/master/stable/hackmd)
-- Nextcloud
+- [Nextcloud](nextcloud)
 - [SonarQube](https://github.com/kubernetes/charts/tree/master/stable/sonarqube)
 - [Nexus](https://github.com/kubernetes/charts/tree/master/stable/sonatype-nexus)
 - [Keycloak](https://github.com/kubernetes/charts/tree/master/stable/keycloak)

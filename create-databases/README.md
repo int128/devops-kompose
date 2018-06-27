@@ -15,8 +15,8 @@ Create a secret:
 ```sh
 kubectl -n devops create secret generic create-databases \
   "--from-literal=host=$DEVOPS_POSTGRES_HOST" \
-  "--from-literal=admin_user=admin_username" \
-  "--from-literal=admin_password=admin_password"
+  "--from-literal=admin_user=$DEVOPS_POSTGRES_ROOT_USERNAME" \
+  "--from-literal=admin_password=$DEVOPS_POSTGRES_ROOT_PASSWORD"
 ```
 
 Apply the manifests:
