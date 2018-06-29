@@ -101,6 +101,20 @@ releases:
           requests:
             memory: 256Mi
 
+  - name: jira-to-slack
+    namespace: devops
+    chart: ./jira-to-slack
+    values:
+      - ingress:
+          enabled: true
+          hosts:
+            - jira-to-slack.{{ requiredEnv "DEVOPS_DOMAIN" }}
+        resources:
+          limits:
+            memory: 32Mi
+          requests:
+            memory: 32Mi
+
   - name: nextcloud
     namespace: devops
     chart: ./nextcloud

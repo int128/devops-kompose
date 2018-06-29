@@ -13,6 +13,7 @@ Nextcloud     | [./nextcloud](nextcloud)
 SonarQube     | [stable/sonarqube](https://github.com/kubernetes/charts/tree/master/stable/sonarqube)
 Nexus         | [stable/sonatype-nexus](https://github.com/kubernetes/charts/tree/master/stable/sonatype-nexus)
 Keycloak      | [stable/keycloak](https://github.com/kubernetes/charts/tree/master/stable/keycloak)
+JIRA to Mattermost Integration | [./jira-to-slack](jira-to-slack)
 
 
 ## Build a stack
