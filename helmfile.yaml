@@ -31,6 +31,7 @@ releases:
           hosts:
             - jira.{{ requiredEnv "DEVOPS_DOMAIN" }}
         jira:
+          javaHeapSize: 2048m
           reverseProxyHost: jira.{{ requiredEnv "DEVOPS_DOMAIN" }}
           # Disable websudo for SAML or OIDC
           javaOptions: "-Djira.websudo.is.disabled=true"
@@ -38,10 +39,10 @@ releases:
           limits:
             # for single core CPU
             cpu: 800m
-            memory: 2048Mi
+            memory: 3072Mi
           requests:
             cpu: 0
-            memory: 2048Mi
+            memory: 3072Mi
 
   - name: atlassian-confluence
     namespace: devops
