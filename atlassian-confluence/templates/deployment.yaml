@@ -21,14 +21,6 @@ spec:
         app: {{ template "atlassian-confluence.name" . }}
         release: {{ .Release.Name }}
     spec:
-      initContainers:
-        - name: chown-data-volume
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ["chown", "daemon:daemon", "-R", "/var/atlassian/application-data/confluence"]
-          volumeMounts:
-          - name: data
-            mountPath: /var/atlassian/application-data/confluence
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
