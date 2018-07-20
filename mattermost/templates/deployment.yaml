@@ -23,7 +23,7 @@ spec:
     spec:
       initContainers:
         - name: chown-data-volume
-          image: alpine
+          image: busybox
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["chown", "2000:2000", "-R", "/mattermost"]
           volumeMounts:

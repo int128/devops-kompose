@@ -23,9 +23,9 @@ spec:
     spec:
       initContainers:
         - name: chown-data-volume
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: busybox
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ["chown", "daemon:daemon", "-R", "/var/atlassian/jira"]
+          command: ["chown", "2:2", "-R", "/var/atlassian/jira"]
           volumeMounts:
           - name: data
             mountPath: /var/atlassian/jira
