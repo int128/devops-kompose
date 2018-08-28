@@ -1,3 +1,7 @@
+**DEPRECATED:** Use https://docs.gitlab.com/ee/install/kubernetes/gitlab_chart.html instead.
+
+----
+
 # GitLab
 
 This is a yet another GitLab Helm chart.
