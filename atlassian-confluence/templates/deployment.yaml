@@ -61,7 +61,7 @@ spec:
             timeoutSeconds: 3
           volumeMounts:
             - name: data
-              mountPath: /var/atlassian/application-data/confluence
+              mountPath: /var/atlassian/confluence
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}
