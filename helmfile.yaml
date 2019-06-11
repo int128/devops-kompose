@@ -63,19 +63,6 @@ releases:
             cpu: 0
             memory: 2048Mi
 
-  - name: jenkins
-    namespace: devops
-    chart: stable/jenkins
-    values:
-      - Master:
-          ServiceType: ClusterIP
-          HostName: jenkins.{{ requiredEnv "DEVOPS_DOMAIN" }}
-          resources:
-            limits:
-              memory: 512Mi
-            requests:
-              memory: 512Mi
-
   - name: gitlab
     namespace: devops
     chart: ./gitlab
