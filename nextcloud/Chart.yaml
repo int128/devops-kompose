@@ -11,6 +11,6 @@ keywords:
 - web
 - php
 home: https://nextcloud.com/
-icon: https://cdn.rawgit.com/docker-library/docs/defa5ffc7123177acd60ddef6e16bddf694cc35f/nextcloud/logo.svg
+icon: https://cdn.jsdelivr.net/gh/docker-library/docs@defa5ffc7123177acd60ddef6e16bddf694cc35f/nextcloud/logo.svg
 sources:
 - https://github.com/nextcloud/server
