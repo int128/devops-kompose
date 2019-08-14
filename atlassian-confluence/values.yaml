@@ -2,11 +2,11 @@
 
 image:
   repository: atlassian/confluence-server
-  tag: 6.9.0
+  tag: 6.7.0
   pullPolicy: IfNotPresent
 
 confluence:
-  reverseProxyHost: confluence.example.com
+  reverseProxyHost: confluence.cgicentaur.eu
   reverseProxyPort: 443
   reverseProxyScheme: https
   javaHeapSize: 1024m
@@ -28,19 +28,26 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   path: /
   hosts:
-    - confluence.example.com
+    - confluence.cgicentaur.eu
   tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+    - secretName: cgicentaur-tls
+      hosts:
+        - confluence.cgicentaur.com
 
 persistence:
   enabled: true
   accessMode: ReadWriteOnce
   size: 8Gi
+  storageClass: azure-resizable
   # existingClaim: existing-pvc
 
-resources: {}
+resources:
+  limits:
+    cpu: 800m
+    memory: 2Gi
+  requests:
+    cpu: "0"
+    memory: 2Gi
 
 nodeSelector: {}
 
